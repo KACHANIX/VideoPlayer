@@ -1,0 +1,26 @@
+﻿<Window x:Class="BanalVideo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Seryoga Customs" Height="350" Width="525"
+        
+        MinHeight="350" MinWidth="525">
+    <Grid Background="Black">
+        <MediaElement LoadedBehavior="Manual" Name="Screen" Margin="0,0,0,0"/>
+        <Button Name="PlayButton" BorderThickness="0" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="26" Click="PlayButton_Click">
+            <Image Source="C:\Users\kocha\Downloads\Player\VideoPlayer-master\BanalVideo\PLAYPAUSE.png"/>
+        </Button>
+        <Button Name="FileOpenButton" HorizontalAlignment="Left" BorderThickness="0" Margin="28,0,0,0" VerticalAlignment="Bottom" Width="26" Height="22" Click="FileOpenButton_Click">
+            <Image Source="C:\Users\kocha\Downloads\Player\VideoPlayer-master\BanalVideo\Open.png"/>
+        </Button>
+        <Slider Name="Volume" Margin="118,0,0,0" VerticalAlignment="Bottom" Height="22" HorizontalAlignment="Left" Width="72" ValueChanged="Volume_ValueChanged"/>
+        <Slider Name="TimeLine" Margin="195,0,62.4,-0.2" Height="22" VerticalAlignment="Bottom" Thumb.DragStarted="TimeLine_DragEnter" Thumb.DragCompleted="TimeLine_DragLeave"/>
+        <TextBlock  Name="Subtitle" TextWrapping="WrapWithOverflow" FontSize="30" Foreground="White"
+                   Text="Sub" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Margin="0,0,0.4,27" TextAlignment="Center" Width="518" />
+        <Button Name ="SubtitleButton" Content="Subs" VerticalAlignment="Bottom" BorderThickness="0" Height="22" Margin="56,0,0,0" HorizontalAlignment="Left" Width="52" Click="SubtitleButton_Click"/>
+        <TextBlock Name="Position" TextWrapping="Wrap" Text="00:00:00" Foreground="White" Margin="0,0,-0.6,6.8" Height="15" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="57"/>
+
+    </Grid>
+</Window>

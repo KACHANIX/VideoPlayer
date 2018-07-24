@@ -1,0 +1,13 @@
+﻿<Window x:Class="BanalVideo.SubtitleChoose"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="SubtitleChoose" Height="117.354" Width="164.32"
+        ResizeMode="NoResize" WindowStyle="SingleBorderWindow">
+    <Grid>
+        <Button Name="ChooseFileButton" Content="Choose a file" Height="44" VerticalAlignment="Top" Click="ChooseFileButton_Click" />
+        <Button Name="DownloadFileButton" Content="Download Subs" Height="45" VerticalAlignment="Top" Margin="0,44,0,0" Click="DownloadFileButton_Click" />
+    </Grid>
+</Window>
