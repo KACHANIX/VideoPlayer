@@ -129,7 +129,7 @@ namespace BanalVideo
                     Subtitle.Text = SubtitlesList[index].Text;
                 else Subtitle.Text = "";
             }
-            Position.Text = Screen.Position.ToString().Remove(8,8);
+            Position.Text = Screen.Position.ToString().Remove(8);
         }
 
         private void Screen_MediaOpened(object sender, RoutedEventArgs e)
