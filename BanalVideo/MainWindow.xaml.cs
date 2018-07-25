@@ -33,12 +33,35 @@ namespace BanalVideo
             Screen.Stretch = Stretch.Uniform;
             TimeLine.Minimum = 0;
             Screen.MediaOpened += Screen_MediaOpened;
-            this.KeyDown += MainWindow_KeyDown;
+            PreviewKeyDown += MainWindow_KeyDown;
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.Space)
+            {
+                if (isPlaying)
+                {
+                    Screen.Pause();
+                    try
+                    {
+                        Timer.IsEnabled = false;
+                    }
+                    catch (NullReferenceException) { }
+                    isPlaying = false;
+                }
+                else
+                {
+                    Screen.Play();
+                    try
+                    {
+                        Timer.IsEnabled = true;
+                    }
+                    catch (NullReferenceException) { }
+                    isPlaying = true;
+                }
 
+            }
             if (e.Key == Key.F11)
             {
                 if (!isFullScreen)
@@ -54,6 +77,41 @@ namespace BanalVideo
                     isFullScreen = false;
                 }
             }
+            if (e.Key == Key.Down)
+            {
+                try
+                {
+                    Volume.Value -= 0.05;
+                }
+                catch (Exception) {}
+            }
+            if (e.Key == Key.Up)
+            {
+                try
+                {
+                    Volume.Value += 0.05;
+                }
+                catch (Exception)
+                {
+                }
+            }
+            if (e.Key == Key.Left)
+            {
+                try
+                {
+                    Screen.Position = new TimeSpan(0, 0, 0, ((int)TimeLine.Value - 5));
+                }
+                catch (Exception){}
+            }
+            if (e.Key == Key.Right)
+            {
+                try
+                {
+                    Screen.Position = new TimeSpan(0, 0, 0, ((int)TimeLine.Value + 5));
+                }
+                catch (Exception) {}
+            }
+            e.Handled = true;
         }
 
         private void LoadSubtitle(string path)
@@ -105,7 +163,11 @@ namespace BanalVideo
             {
                 TimeLine.Value = Screen.Position.TotalSeconds;
             }
-            Position.Text = Screen.Position.ToString().Remove(8);
+            try
+            {
+                Position.Text = Screen.Position.ToString().Remove(8);
+            }
+            catch (Exception){}
         }
 
         private void Timer_Tick_With_Subs(object sender, EventArgs e)
@@ -129,7 +191,11 @@ namespace BanalVideo
                     Subtitle.Text = SubtitlesList[index].Text;
                 else Subtitle.Text = "";
             }
-            Position.Text = Screen.Position.ToString().Remove(8);
+            try
+            {
+                Position.Text = Screen.Position.ToString().Remove(8);
+            }
+            catch (Exception){}
         }
 
         private void Screen_MediaOpened(object sender, RoutedEventArgs e)
@@ -164,7 +230,6 @@ namespace BanalVideo
                 catch (NullReferenceException) { }
                 isPlaying = true;
             }
-
         }
 
         private void FileOpenButton_Click(object sender, RoutedEventArgs e)
@@ -239,6 +304,7 @@ namespace BanalVideo
             int SliderValue = (int)TimeLine.Value;
             TimeSpan ts = new TimeSpan(0, 0, 0, SliderValue);
             Screen.Position = ts;
+
         }
 
         private void SubtitleButton_Click(object sender, RoutedEventArgs e)
