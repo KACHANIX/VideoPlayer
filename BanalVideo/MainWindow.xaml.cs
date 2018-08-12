@@ -77,6 +77,12 @@ namespace BanalVideo
                     isFullScreen = false;
                 }
             }
+            if (e.Key == Key.Escape && isFullScreen)
+            {
+                this.WindowState = WindowState.Normal;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                isFullScreen = false;
+            }
             if (e.Key == Key.Down)
             {
                 try
