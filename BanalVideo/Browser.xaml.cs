@@ -26,7 +26,7 @@ namespace BanalVideo
             (wfhSample.Child as System.Windows.Forms.WebBrowser).ScriptErrorsSuppressed = true;
             string FileName = ((MainWindow)System.Windows.Application.Current.MainWindow).currentFile == "" ?
                 "https://subscene.com/subtitles" :
-                "https://" + $"subscene.com/subtitles/{((MainWindow)System.Windows.Application.Current.MainWindow).currentFile.ToLower().Replace(' ', '-')}/english";
+                $"https://subscene.com/subtitles/{((MainWindow)System.Windows.Application.Current.MainWindow).currentFile.ToLower().Replace(' ', '-')}/english";
             (wfhSample.Child as System.Windows.Forms.WebBrowser).Navigate(FileName);
         }
     }

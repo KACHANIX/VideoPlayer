@@ -8,6 +8,7 @@ namespace BanalVideo
 {
     public class Subtitle
     {
+        
         public int index;
         public TimeSpan End;
         public TimeSpan Start;

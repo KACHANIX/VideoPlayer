@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ru_eFd_4.ico</ApplicationIcon>
+    <ApplicationIcon>img\ru_eFd_4.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -114,14 +114,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icon.png" />
+    <Resource Include="img\icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Open.png" />
-    <Resource Include="PLAYPAUSE.png" />
+    <Resource Include="img\Open.png" />
+    <Resource Include="img\PLAYPAUSE.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ru_eFd_4.ico" />
+    <Resource Include="img\ru_eFd_4.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -47,7 +47,7 @@ namespace BanalVideo
             if (path == "")
                 this.Close();
 
-            ((MainWindow)Application.Current.MainWindow).SubPath = path;
+            ((MainWindow)Application.Current.MainWindow).subPath = path;
             ((MainWindow)Application.Current.MainWindow).isSubChosen = true;
         }
     }

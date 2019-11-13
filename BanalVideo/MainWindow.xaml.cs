@@ -14,28 +14,33 @@ namespace BanalVideo
     public partial class MainWindow : Window
     {
 
-        public DispatcherTimer Timer;
-        public string SubPath;
-        bool isPlaying = false;
-        int index = 0;
-        List<Subtitle> SubtitlesList;
-        bool isDragging = false;
-        public string currentFile = "";
+        public string subPath;
+        public string currentFile;
         public bool isSubChosen;
-        private bool isFullScreen = false;
+
+        DispatcherTimer timer;
+        List<Subtitle> subList;
+        int subIndex = 0;
+
+        bool isDragging = false;
+        bool isFullScreen = false;
+        bool isPlaying = false;
         public MainWindow()
         {
             InitializeComponent();
-            Volume.Minimum = 0;
-            Volume.Maximum = 1;
-            Volume.Value = 0.5;
-            Screen.Volume = Volume.Value;
-            Screen.Stretch = Stretch.Uniform;
-            TimeLine.Minimum = 0;
-            Screen.MediaOpened += Screen_MediaOpened;
-            PreviewKeyDown += MainWindow_KeyDown;
-        }
 
+            TimeLine.MouseEnter += Mouse_Enter;
+            PlayButton.MouseEnter += Mouse_Enter;
+            FileOpenButton.MouseEnter += Mouse_Enter;
+            Volume.MouseEnter += Mouse_Enter;
+            SubtitleButton.MouseEnter += Mouse_Enter;
+
+            TimeLine.MouseLeave += Mouse_Leave;
+            PlayButton.MouseLeave += Mouse_Leave;
+            FileOpenButton.MouseLeave += Mouse_Leave;
+            Volume.MouseLeave += Mouse_Leave;
+            SubtitleButton.MouseLeave += Mouse_Leave;
+        }
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Space)
@@ -45,7 +50,7 @@ namespace BanalVideo
                     Screen.Pause();
                     try
                     {
-                        Timer.IsEnabled = false;
+                        timer.IsEnabled = false;
                     }
                     catch (NullReferenceException) { }
                     isPlaying = false;
@@ -55,14 +60,37 @@ namespace BanalVideo
                     Screen.Play();
                     try
                     {
-                        Timer.IsEnabled = true;
+                        timer.IsEnabled = true;
                     }
                     catch (NullReferenceException) { }
                     isPlaying = true;
                 }
-
             }
-            if (e.Key == Key.F11)
+            else if (e.Key == Key.Down)
+            {
+                Volume.Value -= 0.05;
+            }
+            else if (e.Key == Key.Up)
+            {
+                Volume.Value += 0.05;
+            }
+            else if (e.Key == Key.Left)
+            {
+                try
+                {
+                    Screen.Position = new TimeSpan(0, 0, ((int)TimeLine.Value - 5));
+                }
+                catch (ArgumentOutOfRangeException) { }
+            }
+            else if (e.Key == Key.Right)
+            {
+                try
+                {
+                    Screen.Position = new TimeSpan(0, 0, 0, ((int)TimeLine.Value + 5));
+                }
+                catch (ArgumentOutOfRangeException) { }
+            }
+            else if (e.Key == Key.F11)
             {
                 if (!isFullScreen)
                 {
@@ -77,51 +105,19 @@ namespace BanalVideo
                     isFullScreen = false;
                 }
             }
-            if (e.Key == Key.Escape && isFullScreen)
+            else if (e.Key == Key.Escape && isFullScreen)
             {
                 this.WindowState = WindowState.Normal;
                 this.WindowStyle = WindowStyle.SingleBorderWindow;
                 isFullScreen = false;
             }
-            if (e.Key == Key.Down)
-            {
-                try
-                {
-                    Volume.Value -= 0.05;
-                }
-                catch (Exception) {}
-            }
-            if (e.Key == Key.Up)
-            {
-                try
-                {
-                    Volume.Value += 0.05;
-                }
-                catch (Exception)
-                {
-                }
-            }
-            if (e.Key == Key.Left)
-            {
-                try
-                {
-                    Screen.Position = new TimeSpan(0, 0, 0, ((int)TimeLine.Value - 5));
-                }
-                catch (Exception){}
-            }
-            if (e.Key == Key.Right)
-            {
-                try
-                {
-                    Screen.Position = new TimeSpan(0, 0, 0, ((int)TimeLine.Value + 5));
-                }
-                catch (Exception) {}
-            }
+
             e.Handled = true;
         }
 
         private void LoadSubtitle(string path)
         {
+            subIndex = 0;
             int i = 0;
             using (StreamReader sr = new StreamReader(path, Encoding.Default, true))
             {
@@ -147,20 +143,20 @@ namespace BanalVideo
                             break;
                         sub.Text += s;
                     }
-                    SubtitlesList.Add(sub);
+                    subList.Add(sub);
                     i++;
                 }
             }
         }
 
-        private void Mouse_Enter(object sender, MouseEventArgs e) 
+        private void Mouse_Enter(object sender, MouseEventArgs e)
         {
             (sender as UIElement).Opacity = 1;
         }
 
         private void Mouse_Leave(object sender, MouseEventArgs e)
         {
-            (sender as UIElement).Opacity = 0.1;
+            (sender as UIElement).Opacity = 0.2;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -173,7 +169,7 @@ namespace BanalVideo
             {
                 Position.Text = Screen.Position.ToString().Remove(8);
             }
-            catch (Exception){}
+            catch (Exception) { }
         }
 
         private void Timer_Tick_With_Subs(object sender, EventArgs e)
@@ -182,26 +178,31 @@ namespace BanalVideo
             {
                 TimeLine.Value = Screen.Position.TotalSeconds;
             }
-            for (int i = 0; i < SubtitlesList.Count; i++)
+            for (int i = 0; i < subList.Count; i++)
             {
-                if (Screen.Position >= SubtitlesList[i].Start && Screen.Position <= SubtitlesList[i].End)
+                if (Screen.Position >= subList[i].Start && Screen.Position <= subList[i].End)
                 {
-                    index = i;
+                    subIndex = i;
                     break;
                 }
             }
 
-            if (index < SubtitlesList.Count)
+            if (subIndex < subList.Count)
             {
-                if (Screen.Position >= SubtitlesList[index].Start && Screen.Position <= SubtitlesList[index].End)
-                    Subtitle.Text = SubtitlesList[index].Text;
-                else Subtitle.Text = "";
+                if (Screen.Position >= subList[subIndex].Start && Screen.Position <= subList[subIndex].End)
+                {
+                    Subtitle.Text = subList[subIndex].Text;
+                }
+                else
+                {
+                    Subtitle.Text = "";
+                }
             }
             try
             {
                 Position.Text = Screen.Position.ToString().Remove(8);
             }
-            catch (Exception){}
+            catch (Exception) { }
         }
 
         private void Screen_MediaOpened(object sender, RoutedEventArgs e)
@@ -211,7 +212,7 @@ namespace BanalVideo
 
         private void Volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            Screen.Volume = (double)Volume.Value;
+            Screen.Volume = Volume.Value;
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
@@ -221,9 +222,9 @@ namespace BanalVideo
                 Screen.Pause();
                 try
                 {
-                    Timer.IsEnabled = false;
+                    timer.IsEnabled = false;
                 }
-                catch (NullReferenceException) { }
+                catch (NullReferenceException) { MessageBox.Show("asd"); }
                 isPlaying = false;
             }
             else
@@ -231,9 +232,9 @@ namespace BanalVideo
                 Screen.Play();
                 try
                 {
-                    Timer.IsEnabled = true;
+                    timer.IsEnabled = true;
                 }
-                catch (NullReferenceException) { }
+                catch (NullReferenceException) { MessageBox.Show("asd"); }
                 isPlaying = true;
             }
         }
@@ -241,16 +242,14 @@ namespace BanalVideo
         private void FileOpenButton_Click(object sender, RoutedEventArgs e)
         {
             Subtitle.Text = "";
+
+            //Check if the video isn't chosen yet
             try
             {
-
-                Timer.Tick -= Timer_Tick_With_Subs;
-
-                Timer.Tick += Timer_Tick;
-                SubtitlesList = null;
-
+                timer.Tick -= Timer_Tick_With_Subs;
             }
-            catch (Exception) { }
+            catch (NullReferenceException) { }
+
             string path = "";
             OpenFileDialog FileToOpen = new OpenFileDialog();
             FileToOpen.Filter = "Видео (*.MP4;*.AVI;*.MKV)|*.MP4;*.AVI;*.MKV";
@@ -262,43 +261,17 @@ namespace BanalVideo
             currentFile = Path.GetFileName(path).Split('.')[0];
             Screen.Source = new Uri(path, UriKind.Absolute);
             TimeLine.Value = 0;
-            Timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(1)
-                
-            };
 
-            
-            Timer.Tick -= Timer_Tick_With_Subs;
-                        
-            Timer.Tick += Timer_Tick;
-            SubtitlesList = null;
-
-            Timer.Start();
+            timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+            timer.Tick += Timer_Tick;
+            timer.Start();
             Screen.Play();
-
-            TimeLine.Opacity = 0.1;
-            PlayButton.Opacity = 0.1;
-            FileOpenButton.Opacity = 0.1;
-            Volume.Opacity = 0.1;
-            SubtitleButton.Opacity = 0.1;
-
             isPlaying = true;
 
-            TimeLine.MouseEnter += Mouse_Enter;
-            PlayButton.MouseEnter += Mouse_Enter;
-            FileOpenButton.MouseEnter += Mouse_Enter;
-            Volume.MouseEnter += Mouse_Enter;
-            SubtitleButton.MouseEnter += Mouse_Enter;
-
-            TimeLine.MouseLeave += Mouse_Leave;
-            PlayButton.MouseLeave += Mouse_Leave;
-            FileOpenButton.MouseLeave += Mouse_Leave;
-            Volume.MouseLeave += Mouse_Leave;
-            SubtitleButton.MouseLeave += Mouse_Leave;
+            subList = null;
 
         }
-        
+
         private void TimeLine_DragEnter(object sender, DragStartedEventArgs e)
         {
             isDragging = true;
@@ -308,9 +281,8 @@ namespace BanalVideo
         {
             isDragging = false;
             int SliderValue = (int)TimeLine.Value;
-            TimeSpan ts = new TimeSpan(0, 0, 0, SliderValue);
-            Screen.Position = ts;
-
+            TimeSpan newPosition = new TimeSpan(0, 0, SliderValue);
+            Screen.Position = newPosition;
         }
 
         private void SubtitleButton_Click(object sender, RoutedEventArgs e)
@@ -318,19 +290,21 @@ namespace BanalVideo
             isSubChosen = false;
             SubtitleChoose subtitleChoose = new SubtitleChoose();
             subtitleChoose.ShowDialog();
-            SubtitlesList = new List<Subtitle>();
-            if (SubPath == "" || !isSubChosen)
+            subList = new List<Subtitle>();
+            if (subPath == "" || !isSubChosen)
                 return;
-            LoadSubtitle(SubPath);
+            LoadSubtitle(subPath);
+
+            //Check if the video isn't chosen yet
             try
             {
-                Timer.Tick -= Timer_Tick;
+                timer.Tick -= Timer_Tick;
             }
-            catch (System.NullReferenceException)
+            catch (NullReferenceException)
             {
                 return;
             }
-            Timer.Tick += Timer_Tick_With_Subs;
+            timer.Tick += Timer_Tick_With_Subs;
         }
     }
 }

@@ -4,22 +4,50 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Seryoga Customs" Height="350" Width="525" Icon="icon.png"
+        Title="Custom player" Icon="icon.png"
+        Height="350" Width="525" 
         MinHeight="350" MinWidth="525">
-    <Grid Background="Black">
-        <MediaElement LoadedBehavior="Manual" Name="Screen" Margin="0,0,0,0"/>
-        <Button Name="PlayButton" BorderThickness="0" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="26" Click="PlayButton_Click">
+    <Grid Background="Black" PreviewKeyDown="MainWindow_KeyDown">
+        <MediaElement Name="Screen" Margin="0,0,0,0"
+                      Volume="0.5" Stretch="Uniform" 
+                      LoadedBehavior="Manual" 
+                      MediaOpened="Screen_MediaOpened"/>
+        <Button Name="PlayButton" BorderThickness="0" 
+                VerticalAlignment="Bottom" HorizontalAlignment="Left" 
+                Height="22" Width="26" Opacity="0.2"
+                Click="PlayButton_Click">
             <Image Source="PLAYPAUSE.png"/>
         </Button>
-        <Button Name="FileOpenButton" HorizontalAlignment="Left" BorderThickness="0" Margin="28,0,0,0" VerticalAlignment="Bottom" Width="26" Height="22" Click="FileOpenButton_Click">
+        <Button Name="FileOpenButton" Margin="28,0,0,0"
+                VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                Width="26" Height="22" BorderThickness="0"
+                Opacity="0.2"
+                Click="FileOpenButton_Click">
             <Image Source="Open.png"/>
         </Button>
-        <Slider Name="Volume" Margin="118,0,0,0" VerticalAlignment="Bottom" Height="22" HorizontalAlignment="Left" Width="72" ValueChanged="Volume_ValueChanged"/>
-        <Slider Name="TimeLine" Margin="195,0,62.4,-0.2" Height="22" VerticalAlignment="Bottom" Thumb.DragStarted="TimeLine_DragEnter" Thumb.DragCompleted="TimeLine_DragLeave"/>
-        <TextBlock  Name="Subtitle" TextWrapping="WrapWithOverflow" FontSize="30" Foreground="White"
-                   Text="Sub" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Margin="0,0,0.4,27" TextAlignment="Center" Width="518" />
-        <Button Name ="SubtitleButton" Content="Subs" VerticalAlignment="Bottom" BorderThickness="0" Height="22" Margin="56,0,0,0" HorizontalAlignment="Left" Width="52" Click="SubtitleButton_Click"/>
-        <TextBlock Name="Position" TextWrapping="Wrap" Text="00:00:00" Foreground="White" Margin="0,0,-0.6,6.8" Height="15" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="57"/>
-
+        <Slider Name="Volume" Margin="118,0,0,0"
+                VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                Minimum="0" Maximum="1" Value="0.5" 
+                Height="22" Width="72" Opacity="0.2"
+                ValueChanged="Volume_ValueChanged"/>
+        <Slider Name="TimeLine" Margin="195,0,62.4,0" Height="22" 
+                VerticalAlignment="Bottom" Minimum="0" 
+                Thumb.DragStarted="TimeLine_DragEnter" 
+                Thumb.DragCompleted="TimeLine_DragLeave"
+                Opacity="0.2"/>
+        <TextBlock Name="Subtitle" Margin="0,0,0.4,27"
+                    HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                    TextWrapping="WrapWithOverflow" FontSize="30" 
+                    TextAlignment="Center" Foreground="White"
+                    Width="518" />
+        <Button Name ="SubtitleButton" Margin="56,0,0,0" 
+                VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                Content="Subs" BorderThickness="0" 
+                Height="22" Width="52" Opacity="0.2"
+                Click="SubtitleButton_Click"/>
+        <TextBlock Name="Position" Margin="0,0,0,7" 
+                   VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                   TextWrapping="Wrap" Text="00:00:00" Foreground="White" 
+                   Height="15" Width="57"/>
     </Grid>
 </Window>
