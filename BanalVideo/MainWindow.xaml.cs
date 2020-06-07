@@ -295,7 +295,7 @@ namespace BanalVideo
             fileToOpen.ShowDialog();
             var path = fileToOpen.FileName;
             if (path == "")
-                Close();
+                return;
             _subPath = path;
             _isSubChosen = true;
             _subList = new List<Subtitle>();
