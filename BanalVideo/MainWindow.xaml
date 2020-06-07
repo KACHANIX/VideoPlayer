@@ -4,36 +4,47 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Custom player" Icon="icon.png"
+        Title="Custom player" Icon="img/icon.png"
         Height="350" Width="525" 
-        MinHeight="350" MinWidth="525">
+        MinHeight="350" MinWidth="525"
+        MouseWheel="Screen_OnMouseWheel">
     <Grid Background="Black" PreviewKeyDown="MainWindow_KeyDown">
         <MediaElement Name="Screen" Margin="0,0,0,0"
                       Volume="0.5" Stretch="Uniform" 
                       LoadedBehavior="Manual" 
-                      MediaOpened="Screen_MediaOpened"/>
+                      MediaOpened="Screen_MediaOpened"
+                      MouseLeftButtonDown="PlayButton_Click"
+                      MouseRightButtonDown="Screen_OnMouseRightButtonDown"/>
         <Button Name="PlayButton" BorderThickness="0" 
                 VerticalAlignment="Bottom" HorizontalAlignment="Left" 
                 Height="22" Width="26" Opacity="0.2"
-                Click="PlayButton_Click">
-            <Image Source="PLAYPAUSE.png"/>
+                Click="PlayButton_Click"
+                MouseEnter="Mouse_Enter"
+                MouseLeave="Mouse_Leave">
+            <Image Source="img/PLAYPAUSE.png"/>
         </Button>
         <Button Name="FileOpenButton" Margin="28,0,0,0"
                 VerticalAlignment="Bottom" HorizontalAlignment="Left"
                 Width="26" Height="22" BorderThickness="0"
                 Opacity="0.2"
-                Click="FileOpenButton_Click">
-            <Image Source="Open.png"/>
+                Click="FileOpenButton_Click"
+                MouseEnter="Mouse_Enter"
+                MouseLeave="Mouse_Leave">
+            <Image Source="img/Open.png"/>
         </Button>
         <Slider Name="Volume" Margin="118,0,0,0"
                 VerticalAlignment="Bottom" HorizontalAlignment="Left"
                 Minimum="0" Maximum="1" Value="0.5" 
                 Height="22" Width="72" Opacity="0.2"
-                ValueChanged="Volume_ValueChanged"/>
+                ValueChanged="Volume_ValueChanged"
+                MouseEnter="Mouse_Enter"
+                MouseLeave="Mouse_Leave"/>
         <Slider Name="TimeLine" Margin="195,0,62.4,0" Height="22" 
                 VerticalAlignment="Bottom" Minimum="0" 
                 Thumb.DragStarted="TimeLine_DragEnter" 
                 Thumb.DragCompleted="TimeLine_DragLeave"
+                MouseEnter="Mouse_Enter"
+                MouseLeave="Mouse_Leave"
                 Opacity="0.2"/>
         <TextBlock Name="Subtitle" Margin="0,0,0.4,27"
                     HorizontalAlignment="Center" VerticalAlignment="Bottom"
@@ -44,7 +55,9 @@
                 VerticalAlignment="Bottom" HorizontalAlignment="Left"
                 Content="Subs" BorderThickness="0" 
                 Height="22" Width="52" Opacity="0.2"
-                Click="SubtitleButton_Click"/>
+                Click="SubtitleButton_Click"
+                MouseEnter="Mouse_Enter"
+                MouseLeave="Mouse_Leave"/>
         <TextBlock Name="Position" Margin="0,0,0,7" 
                    VerticalAlignment="Bottom" HorizontalAlignment="Right" 
                    TextWrapping="Wrap" Text="00:00:00" Foreground="White" 
