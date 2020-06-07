@@ -7,14 +7,14 @@
         Title="Custom player" Icon="img/icon.png"
         Height="350" Width="525"
         MinHeight="350" MinWidth="525"
-        MouseWheel="Screen_OnMouseWheel" 
-        MouseLeftButtonDown="PlayButton_Click"
+        MouseWheel="Screen_OnMouseWheel"
         MouseRightButtonDown="Screen_OnMouseRightButtonDown">
     <Grid Background="Black" PreviewKeyDown="MainWindow_KeyDown">
         <MediaElement Name="Screen" Margin="0,0,0,0"
                       Volume="0.5" Stretch="Uniform"
                       LoadedBehavior="Manual"
-                      MediaOpened="Screen_MediaOpened" />
+                      MediaOpened="Screen_MediaOpened"
+                      MouseLeftButtonDown="PlayButton_Click" />
         <Button Name="PlayButton" BorderThickness="0"
                 VerticalAlignment="Bottom" HorizontalAlignment="Left"
                 Height="22" Width="26" Opacity="0.2"
